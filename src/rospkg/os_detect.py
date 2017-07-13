@@ -398,6 +398,28 @@ class Arch(OsDetector):
         raise OsNotDetected('called in incorrect OS')
 
 
+class Alpine(OsDetector):
+    """
+    Detect Alpine Linux.
+    """
+    def __init__(self, release_file='/etc/alpine-release'):
+        self._release_file = release_file
+
+    def is_os(self):
+        return os.path.exists(self._release_file)
+
+    def get_version(self):
+        if self.is_os():
+            return ""
+        raise OsNotDetected('called in incorrect OS')
+
+    def get_codename(self):
+        if self.is_os():
+            return ""
+        raise OsNotDetected('called in incorrect OS')
+
+
+
 class Manjaro(Arch):
     """
     Detect Manjaro.
@@ -685,6 +707,7 @@ OS_RHEL = 'rhel'
 OS_SLACKWARE = 'slackware'
 OS_UBUNTU = 'ubuntu'
 OS_WINDOWS = 'windows'
+OS_ALPINE = 'alpine'
 
 OsDetect.register_default(OS_ARCH, Arch())
 OsDetect.register_default(OS_MANJARO, Manjaro())
@@ -708,6 +731,7 @@ OsDetect.register_default(OS_RHEL, Rhel())
 OsDetect.register_default(OS_SLACKWARE, Slackware())
 OsDetect.register_default(OS_UBUNTU, LsbDetect("Ubuntu"))
 OsDetect.register_default(OS_WINDOWS, Windows())
+OsDetect.register_default(OS_ALPINE, Alpine())
 
 
 if __name__ == '__main__':
